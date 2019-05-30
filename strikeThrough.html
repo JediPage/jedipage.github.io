@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function strike() {
+	let text= document.getElementById("source").value
+  document.getElementById("strikeThrough").innerText = text
+    .split('')
+    .map(char => char + '\u0336')
+    .join('')
+    
+     document.getElementById("cross").innerText= text
+    .split('')
+    .map(char => char + '\u0337')
+    .join('')
+}
+
+</script>
+
+<textarea id="source" placeholder="type here"></textarea>
+<textarea id="strikeThrough" readonly></textarea>
+<textarea id="cross" readonly></textarea>
+
+<p id="output">
+
+
+</p>
+<script>
+document.getElementById("source").addEventListener("input", strikeThrough);
+
+</script>
+</body>
+</html>
