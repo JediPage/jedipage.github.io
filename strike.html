@@ -24,6 +24,12 @@ function strike() {
   	$("#strikeThrough").innerText = text.map(char => char + '\u0336').join('')    
     $("#cross").innerText= text.map(char => char + '\u0337').join('')
 }
+function copy(element) {
+  var copyText = $(element);
+  copyText.select();
+  document.execCommand("copy");
+  
+}
 
 </script>
 </head>
@@ -33,20 +39,19 @@ function strike() {
 <div id='sorce'>
 <strong>Type text here</strong>
 <br/>
-<textarea id="source" placeholder="type here"></textarea>
+<textarea id="source" oninput="strike('#source')" placeholder="type here"></textarea>
 <div/>
 <br/>
 <div id='result'>
 <strong>Strike Through text</strong>
 <br/>
 <textarea id="strikeThrough" readonly></textarea>
+<button onclick="copy('#cross')">Copy text</button>
 <br/>
 <textarea id="cross" readonly></textarea>
+<button onclick="copy('#cross')">Copy text</button>
 <div/>
 
-<script>
-document.getElementById("source").addEventListener("input", strike);
 
-</script>
 </body>
 </html>
