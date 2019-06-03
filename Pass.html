@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Strong Password Generator</title>
+</head>
+<body>
+
+<script>
+onlyNumeric=false
+//onlyNumeric=true
+
+function hexString(buffer) {
+  const byteArray = new Uint8Array(buffer);
+  const chars = [...byteArray].map(value => {
+    return String.fromCharCode(toAscii(value))
+  });
+  return chars.join('');
+}
+
+
+
+
+//https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
+function digestMessage(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  return window.crypto.subtle.digest('SHA-256', data);
+}
+
+function encode(text){
+return digestMessage(text).then(digestValue => {
+  return hexString(digestValue);
+});
+
+}
+
+function toAscii(digit){
+	if(digit > 200){
+		while (digit > 93)
+			digit -= 20
+	}
+
+	if(digit > 122){
+		while (digit > 122)
+			digit -= 10
+	}
+
+	//avoid generating 0 and 1 becouse it looks similar to O and L letters
+	if(digit < 50){	
+		digit /= 10
+		digit += 48
+	}
+
+	if(onlyNumeric){
+		if(57 < digit && digit < 65)
+			digit-=9
+		
+		if(90 < digit && digit < 97)
+			digit-=12
+	}
+    return digit
+}
+
+
+function $(selector){
+	return document.querySelector(selector)
+}
+function showPass(id) {
+  var x = $(id);
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function encodeMsPass(){
+	let msPass = $('#masterPass')
+    encode(msPass.value).then(x=>{
+    	$('#masterPassHash').value=x
+    })   
+}
+function setSpec(){
+onlyNumeric=!onlyNumeric
+encodeMsPass()
+}
+
+function generate(){
+	let uri = $('#www').value
+	url = uri.replace(/(^\w+:|^)\/\//, '').replace(/^www./, "");
+
+	let text = url + $('#masterPassHash').value
+    encode(text).then(x=>{
+    	$('#result').value=x
+    })
+}
+
+function copy(element) {
+  var copyText = $(element);
+  copyText.select();
+  document.execCommand("copy");
+  
+}
+</script>
+
+<p>Master password:</p>
+<input type="password" oninput="encodeMsPass()"
+ id="masterPass">
+<input type="checkbox" onclick="showPass('#masterPass')">Show Password
+<br/>
+
+<p>Encoded password:</p>
+<input type="text" id="masterPassHash">
+<input type="checkbox" onclick="showPass('#masterPassHash')">Hide Encoded Pass
+
+<br/>
+<input type="checkbox" onclick="setSpec()">Use spec
+<br/>
+
+
+<input type="text" id="www">
+
+<button onclick="generate()">Generate</button>
+
+<br/>
+<p>Result:<p/>
+<input type="text" id="result">
+<button onclick="copy('#result')">Copy text</button>
+
+</body>
+</html>
