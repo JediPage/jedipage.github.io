@@ -128,18 +128,21 @@ function copy(element) {
 <input type="hidden" id="masterPassHash" >
 				      
 <br/>
-<input type="checkbox" onclick="setSpec()" checked>Use special symbols
-<br/>
+
 
 <p>Site address:</p>
 <input type="text" id="www">
-
+			   
+<br/>
+<input type="checkbox" onclick="setSpec()" checked>Use special symbols
+<br/>
+					  
 <button onclick="generate()">Generate</button>
 
 <br/>
-<p>Your uniq site password:<p/>
+<p>Your unique site password:<p/>
 <input type="text" id="result">
-<button onclick="copy('#result')">Copy text</button>
+<button onclick="copy('#result')">Copy to clipboard:</button>
 
 </body>
 </html>
