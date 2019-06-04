@@ -120,15 +120,18 @@ function copy(element) {
 <input type="checkbox" onclick="showPass('#masterPass')">Show Password
 <br/>
 
+<!--
 <p>Encoded password:</p>
-<input type="text" id="masterPassHash">
+<input type="text" id="masterPassHash" >
 <input type="checkbox" onclick="showPass('#masterPassHash')">Hide Encoded Pass
-
+ -->
+<input type="hidden" id="masterPassHash" >
+				      
 <br/>
-<input type="checkbox" onclick="setSpec()">Use spec
+<input type="checkbox" onclick="setSpec()">Use special symbols
 <br/>
 
-
+<p>Site address:</p>
 <input type="text" id="www">
 
 <button onclick="generate()">Generate</button>
