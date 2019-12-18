@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="application-name" content="Pretty-print JSON string">
+	<meta name="description" content="Json pretty-print">
+	<meta name="author" content="Dima Stadub">
+	<title>Preatty</title>
+	<meta name="keywords" content="Json, pretty-print,javascript, js, prettyprint, buaty, beautify, beautify json">
+	<meta property="og:site_name" content="Dima Stadub Github"/>
+	<meta property="og:title" content="Pretty-print JSON string"/>
+	<meta property="og:description" content="Pretty-print JSON string"/>
+	<meta property="og:image" content="https://mdn.mozillademos.org/files/16022/accessibility-inspector-panel-on.png">
+	<meta property="og:url" content="https://github.com/JediPage/jedipage.github.io/blob/master/JSON-pretty-print.html">
+	<meta property="og:type" content="website"/>
+
+<script>
+function $(selector){
+	return document.querySelector(selector)
+}
+function prettyPrint(inp) {
+   let text=$('#source').value
+
+  var str = JSON.stringify(text, undefined, 4);
+  var result= syntaxHighlight(str);
+
+  $("#prettyprint").innerText = result;
+}
+
+function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+</script>
+<style>
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+</style>
+</head>
+<body>
+<header>Pretty-print JSON string</header>
+
+
+<div id='sorce'>
+
+<strong>Type Json here</strong>
+<br/>
+<textarea id="source" oninput="output('#source')" placeholder="type here"></textarea>
+<div/>
+<br/>
+<div id='result'>
+<strong>Pretty-print JSON string</strong>
+<br/>
+<textarea id="prettyprint" readonly></textarea>
+<div/>
